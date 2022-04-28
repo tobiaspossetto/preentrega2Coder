@@ -1,0 +1,1 @@
+[{"id":1,"timestamp":"2022-04-28T17:45:24.432Z","productos":[{"nombre":"prod3","descripcion":"asdasd","precio":11233,"codigo":"123","foto":"asdsa","stock":21,"id":1,"timestamp":"2022-04-28T17:04:27.585Z"}]}]
