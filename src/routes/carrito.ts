@@ -1,27 +1,27 @@
 import { Router } from "express";
 import {Request, Response } from "express"
-
+import {cart} from '../models/cart';
 const router = Router();
 
 import CartDaosFirebase from "../daos/cart/CartDaosFirebase";
 import CartDaosTxt from "../daos/cart/CartDaosTxt";
-const cartController = new CartDaosTxt('src/db/cart.txt');
-
-
+import CartDaosMongo from '../daos/cart/CartDaosMongo';
+import CartDaosLocal from "../daos/cart/CartDaosLocal";
+//const cartController = new CartDaosTxt('src/db/cart.txt');
+// const cartController = new CartDaosMongo("mongodb://localhost:27017/ecommerce",cart);
+const cartController = new CartDaosLocal('cart')
 //CREAR CARRITO
 router.post("/", async (req:Request,res:Response)=>{
     
     try {
-     //   let msg = await CC.createCart();
-     //   if(msg.status == -1){
-     //        res.status(500).json({ error: "Error creando carrito" });
-     //   }else{
-     //        res.json({ error: false, msg: msg.data }).status(200); '2FFUY3bHBoiXFAxeGfW8vq'
-     //   }
+     
 
      let response = await cartController.createCart();
-     //console.log(response)
-     res.json({ error: false, msg: response }).status(200);
+     if(response.status == -1){
+            res.status(500).json({ error: "Error creando carrito" });
+     }else{
+          res.json({ error: false, msg: response }).status(200);
+     }
     } catch (error) {
          console.log(error);
         res.status(500).json({ error: "Error del servidor" });
@@ -56,6 +56,20 @@ router.get("/:id/productos", async(req:Request,res:Response)=>{
          res.status(500).json({ error: "Error del servidor" });
      }
 })
+
+router.get("/verCart", async(req:Request,res:Response)=>{
+     try {
+         let msg = await cartController.listAll();
+         console.log(msg)
+         if(msg.status == -1){
+              res.status(500).json({ error: "Error listando productos del carrito" });
+         }else{
+              res.json({ error: false, msg:msg.data}).status(200);
+         }
+      } catch (error) {
+          res.status(500).json({ error: "Error del servidor" });
+      }
+ })
 
 //incorporar producto a carrito
 router.post("/:id/productos", async (req:Request,res:Response)=>{

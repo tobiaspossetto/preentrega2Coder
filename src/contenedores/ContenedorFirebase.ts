@@ -1,6 +1,6 @@
 import admin from 'firebase-admin'
 
-var serviceAccount = require("../key/node-test-329a9-firebase-adminsdk-i5m50-abefdca85a.json");
+var serviceAccount = require("../key/node-test-329a9-firebase-adminsdk-i5m50-3a621db61e.json");
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   databaseURL: "https://node-test-329a9.firebaseio.com"
