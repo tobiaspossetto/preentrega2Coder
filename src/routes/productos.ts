@@ -1,30 +1,26 @@
 import { Router } from "express";
 import { Request, Response } from "express";
 import checkRole from "../middleware/role";
-import ProductsDaosTxt from "../daos/products/ProductsDaosTxt";
-import ProductsDaosFirebase from "../daos/products/ProductsDaosFirebase"
-import ProductosDaosMongo from '../daos/products/ProductsDaosMongo';
-import ProductsDaosLocal from "../daos/products/ProductsDaosLocal";
-import { products} from "../models/products";
 
+
+import {productController} from '../controllers/dbSwitch'
 
 
 const router = Router();
-//const productController = new ProductsDaosTxt("src/db/productos.txt");
-//const productController = new ProductsDaosFirebase("products");
-// const productController = new ProductosDaosMongo("mongodb://localhost:27017/ecommerce",products);
-const productController = new ProductsDaosLocal("products");
+
 //Listar todos o uno en especifico
 //Disponible para admin o usuario
 
 
 router.get("/:id?", async (req: Request, res: Response) => {
+  console.log('se ejecuto ruta')
   try {
     const id = req.params.id;
     if (id) {
 
       //TODO: VOLVER A PONER ID
       let msg = await productController.listOne(id);
+      
       if (msg.status == -1) {
         res.status(500).json({ error: "Error obteniendo producto" });
       } else {
@@ -35,6 +31,7 @@ router.get("/:id?", async (req: Request, res: Response) => {
       if (msg.status == -1) {
         res.status(500).json({ error: "Error obteniendo producto" });
       } else {
+        console.log('se ejecuto ruta')
         res.status(200).json({ error: false, msg: msg.data });
       }
     }

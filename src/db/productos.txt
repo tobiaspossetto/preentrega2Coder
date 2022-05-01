@@ -1,1 +1,1 @@
-[{"nombre":"prod3","descripcion":"asdasd","precio":11233,"codigo":"123","foto":"asdsa","stock":21,"id":1,"timestamp":"2022-04-28T17:04:27.585Z"}]
+[{"name":"productoLocalEditado","description":"sadsad","price":22222,"code":"sssss","image":"ssssssssss","stock":22,"id":1,"timestamp":"2022-05-01T01:00:15.960Z"},{"name":"productoLocalEditado","description":"sadsad","price":22222,"code":"sssss","image":"ssssssssss","stock":22,"id":2,"timestamp":"2022-05-01T01:02:07.000Z"}]

@@ -1,21 +1,15 @@
 import { Router } from "express";
 import {Request, Response } from "express"
-import {cart} from '../models/cart';
+
 const router = Router();
 
-import CartDaosFirebase from "../daos/cart/CartDaosFirebase";
-import CartDaosTxt from "../daos/cart/CartDaosTxt";
-import CartDaosMongo from '../daos/cart/CartDaosMongo';
-import CartDaosLocal from "../daos/cart/CartDaosLocal";
-//const cartController = new CartDaosTxt('src/db/cart.txt');
-// const cartController = new CartDaosMongo("mongodb://localhost:27017/ecommerce",cart);
-const cartController = new CartDaosLocal('cart')
+import {cartController} from '../controllers/dbSwitch'
 //CREAR CARRITO
 router.post("/", async (req:Request,res:Response)=>{
     
     try {
      
-
+     
      let response = await cartController.createCart();
      if(response.status == -1){
             res.status(500).json({ error: "Error creando carrito" });
@@ -57,24 +51,13 @@ router.get("/:id/productos", async(req:Request,res:Response)=>{
      }
 })
 
-router.get("/verCart", async(req:Request,res:Response)=>{
-     try {
-         let msg = await cartController.listAll();
-         console.log(msg)
-         if(msg.status == -1){
-              res.status(500).json({ error: "Error listando productos del carrito" });
-         }else{
-              res.json({ error: false, msg:msg.data}).status(200);
-         }
-      } catch (error) {
-          res.status(500).json({ error: "Error del servidor" });
-      }
- })
+
 
 //incorporar producto a carrito
 router.post("/:id/productos", async (req:Request,res:Response)=>{
     try {
         let msg = await cartController.addProductToCart(req.params.id,req.body.idProduct);
+        
         console.log(msg)
         if(msg.status == -1){
              res.status(500).json({ error: "Error agregando producto al carrito" });
